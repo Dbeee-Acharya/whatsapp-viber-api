@@ -1,6 +1,7 @@
 {
   "name": "whatsapp-viber-api",
   "type": "module",
+  "version": "0.0.1",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
@@ -8,6 +9,7 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.19.6",
+    "dotenv": "^17.2.3",
     "hono": "^4.11.1"
   },
   "devDependencies": {
