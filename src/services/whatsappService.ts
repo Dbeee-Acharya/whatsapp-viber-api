@@ -1,0 +1,25 @@
+import { wahaClient } from "../lib/waha.js";
+import config from "../config/config.js";
+
+
+export const whatsappService = {
+  async sendText(chatId: string, text: string) {
+    const payload = {
+      chatId: chatId,
+      text: text,
+      session: config.WAHA_SESSION,
+    };
+    return await wahaClient.post('/api/sendText', payload)
+  },
+  async sendImage(chatId: string, imageUrl: string, caption?: string) {
+    const payload = {
+      chatId: chatId,
+      session: config.WAHA_SESSION,
+      file: {
+        url: imageUrl,
+      },
+      caption: caption || '', //either a caption or empty string for the case of no captions
+    };
+    return await wahaClient.post('/api/sendImage', payload)
+  }
+};
