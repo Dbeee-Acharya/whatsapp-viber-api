@@ -9,10 +9,3 @@ export const createInstance = (baseURL:string,extraHEaders = {}) =>{
     },
   });
 }
-
-// export const wahaClient = axios.create({
-//   baseURL: config.WAHA_BASE_URL,
-//   headers: {
-//     'Content-Type': 'application/json',
-//   },
-// });

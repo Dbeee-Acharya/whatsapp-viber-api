@@ -12,11 +12,16 @@ export const whatsappService = {
     return await wahaClient.post('/api/sendText', payload)
   },
   async sendImage(chatId: string, imageUrl: string, caption?: string) {
+    const filename = `myFile_${new Date()
+      .toISOString()
+      .replace(/[-:T]/g, '')
+      .slice(0, 14)}`;
     const payload = {
       chatId: chatId,
       session: config.WAHA_SESSION,
       file: {
         url: imageUrl,
+        filename: `${filename}.jpg`
       },
       caption: caption || '', //either a caption or empty string for the case of no captions
     };

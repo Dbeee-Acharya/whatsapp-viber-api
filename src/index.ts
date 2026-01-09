@@ -6,7 +6,7 @@ import messageRoute from "./routes/sendMessageRoute.js";
 
 const app = new Hono();
 
-app.use('*',async (c,next) =>{
+app.use('*', async (c,next) =>{
   console.log(`[${new Date().toISOString()}] ${c.req.method} ${c.req.url}`);
   await next();
 })
