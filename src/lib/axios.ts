@@ -1,11 +1,20 @@
-import axios from 'axios';
-import config from '../config/config.js';
+import axios, { type RawAxiosRequestHeaders } from "axios";
 
-export const createInstance = (baseURL:string,extraHEaders = {}) =>{
+const generateHeaders = (
+  headers?: RawAxiosRequestHeaders,
+): RawAxiosRequestHeaders => {
+  return {
+    "Content-Type": "application/json",
+    ...headers,
+  };
+};
+
+export const createInstance = (
+  baseURL: string,
+  customHeaders?: RawAxiosRequestHeaders,
+) => {
   return axios.create({
     baseURL,
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: generateHeaders(customHeaders),
   });
-}
+};

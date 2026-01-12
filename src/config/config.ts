@@ -5,6 +5,8 @@ interface Config {
   //whatsapp using WAHA
   WAHA_BASE_URL: string;
   WAHA_SESSION: string;
+  WAHA_WEBHOOK_AUTH: string;
+  WAHA_API_KEY: string;
 
   // viber
   VIBER_API_URL: string;
@@ -20,11 +22,16 @@ const config: Config = {
     (process.env.NODE_ENV as "development" | "production" | "test") ||
     "development",
 
-    WAHA_BASE_URL: process.env.WAHA_BASE_URL || '',
-    WAHA_SESSION: process.env.WAHA_SESSION || '',
-    VIBER_API_URL: process.env.VIBER_API_URL || '',
-    VIBER_API_KEY: process.env.VIBER_API_KEY || '',
-    BOT_NAME: "KMG",
+  //waha
+  WAHA_BASE_URL: process.env.WAHA_BASE_URL || "",
+  WAHA_SESSION: process.env.WAHA_SESSION || "",
+  WAHA_WEBHOOK_AUTH: process.env.WAHA_WEBHOOK_AUTH || "",
+  WAHA_API_KEY: process.env.WAHA_API_KEY || "",
+
+  // viber
+  VIBER_API_URL: process.env.VIBER_API_URL || "",
+  VIBER_API_KEY: process.env.VIBER_API_KEY || "",
+  BOT_NAME: "KMG",
 };
 
 export default config;
