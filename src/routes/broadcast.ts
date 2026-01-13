@@ -2,6 +2,6 @@ import { Hono } from "hono";
 
 const broadcastRoute = new Hono();
 
-broadcastRoute.post("/", async (c) => {});
+broadcastRoute.get("/", async (c) => {});
 
 export default broadcastRoute;

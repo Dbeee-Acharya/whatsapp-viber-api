@@ -21,15 +21,6 @@ pm2 start ecosystem.config.cjs
 
 ## ROUTES
 
-POST /api/broadcast
+GET /api/broadcast
 
 > broadcast message to whatsapp and viber
-
-payload
-
-```json
-{
-  "sendToViber": true,
-  "sendToWhatsapp": true
-}
-```
