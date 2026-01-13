@@ -1,3 +1,4 @@
+import "dotenv/config";
 interface Config {
   PORT: number;
   NODE_ENV: "development" | "production" | "test";
@@ -12,6 +13,10 @@ interface Config {
   VIBER_API_URL: string;
   VIBER_API_KEY: string;
   BOT_NAME: string;
+
+  //ekantipur
+  EKANTIPUR_BASE_URL: string;
+  SENT_NEWS_ID_STORAGE_FILE_PATH: string;
 
   //wildcard
   [key: string]: string | number;
@@ -33,7 +38,11 @@ const config: Config = {
   // viber
   VIBER_API_URL: process.env.VIBER_API_URL || "",
   VIBER_API_KEY: process.env.VIBER_API_KEY || "",
-  BOT_NAME: "KMG",
+  BOT_NAME: process.env.BOT_NAME || "KMG",
+
+  EKANTIPUR_BASE_URL: process.env.EKANTIPUR_BASE_URL || "",
+  SENT_NEWS_ID_STORAGE_FILE_PATH:
+    process.env.SENT_NEWS_ID_STORAGE_FILE_PATH || "",
 };
 
 export default config;
