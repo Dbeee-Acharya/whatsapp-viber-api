@@ -12,6 +12,8 @@ interface Config {
   VIBER_API_URL: string;
   VIBER_API_KEY: string;
   BOT_NAME: string;
+
+  //wildcard
   [key: string]: string | number;
 }
 

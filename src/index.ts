@@ -3,19 +3,21 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import config from "./config/config.js";
 import messageRoute from "./routes/sendMessageRoute.js";
+import broadcastRoute from "./routes/broadcast.js";
 
 const app = new Hono();
 
-app.use('*', async (c,next) =>{
+app.use("*", async (c, next) => {
   console.log(`[${new Date().toISOString()}] ${c.req.method} ${c.req.url}`);
   await next();
-})
+});
 
 app.get("/", (c) => {
   return c.text("Hono Server for BROADCAST is online!");
 });
 
-app.route('/api/broadcast', messageRoute);
+app.route("/api/send-message", messageRoute);
+app.route("/api/broadcast", broadcastRoute);
 
 serve(
   {
