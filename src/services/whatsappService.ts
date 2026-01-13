@@ -1,7 +1,6 @@
 import { wahaClient } from "../lib/waha.js";
 import config from "../config/config.js";
 
-
 export const whatsappService = {
   async sendText(chatId: string, text: string) {
     const payload = {
@@ -9,22 +8,27 @@ export const whatsappService = {
       text: text,
       session: config.WAHA_SESSION,
     };
-    return await wahaClient.post('/api/sendText', payload)
+    return await wahaClient.post("/api/sendText", payload);
   },
-  async sendImage(chatId: string, imageUrl: string, caption?: string) {
+  async sendImage(
+    chatId: string,
+    imageUrl?: string,
+    fileData?: string,
+    caption?: string,
+  ) {
     const filename = `myFile_${new Date()
       .toISOString()
-      .replace(/[-:T]/g, '')
+      .replace(/[-:T]/g, "")
       .slice(0, 14)}`;
     const payload = {
       chatId: chatId,
       session: config.WAHA_SESSION,
       file: {
-        url: imageUrl,
-        filename: `${filename}.jpg`
+        ...(imageUrl ? { url: imageUrl } : { data: fileData }),
+        filename: `${filename}.jpg`,
       },
-      caption: caption || '', //either a caption or empty string for the case of no captions
+      caption: caption || "", //either a caption or empty string for the case of no captions
     };
-    return await wahaClient.post('/api/sendImage', payload)
-  }
+    return await wahaClient.post("/api/sendImage", payload);
+  },
 };

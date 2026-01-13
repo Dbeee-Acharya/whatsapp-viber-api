@@ -1,6 +1,5 @@
 import { createCanvas, loadImage, registerFont } from "canvas";
 import type { CanvasRenderingContext2D } from "canvas";
-import fs from "fs";
 
 const WIDTH = 1080;
 const HEIGHT = 1080;
@@ -64,5 +63,7 @@ export async function generateNewsImage(text: string) {
   const logo = await loadImage("../assets/ekantipur-logo.png");
   ctx.drawImage(logo, 80, HEIGHT - 160, 80, 80);
 
-  fs.writeFileSync("output.png", canvas.toBuffer("image/png"));
+  return canvas.toBuffer("image/png");
+
+  //fs.writeFileSync("output.png", canvas.toBuffer("image/png"));
 }

@@ -13,10 +13,12 @@ interface Config {
   VIBER_API_URL: string;
   VIBER_API_KEY: string;
   BOT_NAME: string;
+  VIBER_ADMIN_ID: string;
 
   //ekantipur
   EKANTIPUR_BASE_URL: string;
   SENT_NEWS_ID_STORAGE_FILE_PATH: string;
+  EKANTIPUR_CHANNEL_ID: string;
 
   //wildcard
   [key: string]: string | number;
@@ -38,11 +40,13 @@ const config: Config = {
   // viber
   VIBER_API_URL: process.env.VIBER_API_URL || "",
   VIBER_API_KEY: process.env.VIBER_API_KEY || "",
+  VIBER_ADMIN_ID: process.env.VIBER_ADMIN_ID || "",
   BOT_NAME: process.env.BOT_NAME || "KMG",
 
   EKANTIPUR_BASE_URL: process.env.EKANTIPUR_BASE_URL || "",
   SENT_NEWS_ID_STORAGE_FILE_PATH:
     process.env.SENT_NEWS_ID_STORAGE_FILE_PATH || "",
+  EKANTIPUR_CHANNEL_ID: process.env.EKANTIPUR_CHANNEL_ID || "",
 };
 
 export default config;
