@@ -1,15 +1,16 @@
 import { createCanvas, loadImage, registerFont } from "canvas";
+import fs from "fs";
 import type { CanvasRenderingContext2D } from "canvas";
 
 const WIDTH = 1080;
 const HEIGHT = 1080;
-const PADDING = 120;
-const LINE_HEIGHT = 80;
+const PADDING = 80;
+const LINE_HEIGHT = 90;
 const MAX_TEXT_WIDTH = WIDTH - PADDING * 2;
 
 // Register Nepali font
-registerFont("../assets/fonts/Mukta-Regular.ttf", {
-  family: "Kalimati",
+registerFont("./src/assets/fonts/Mukta-Bold.ttf", {
+  family: "Mukta",
 });
 
 function wrapText(
@@ -47,7 +48,7 @@ export async function generateNewsImage(text: string) {
 
   // Text style
   ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 64px Kalimati";
+  ctx.font = "bold 68px Mukta";
   ctx.textAlign = "left";
 
   const lines = wrapText(ctx, text, MAX_TEXT_WIDTH);
@@ -60,10 +61,9 @@ export async function generateNewsImage(text: string) {
   }
 
   // Optional logo
-  const logo = await loadImage("../assets/ekantipur-logo.png");
-  ctx.drawImage(logo, 80, HEIGHT - 160, 80, 80);
+  const logo = await loadImage("./src/assets/ekantipur-logo.png");
+  ctx.drawImage(logo, 80, HEIGHT - 160, 100, 100);
 
+  fs.writeFileSync("output.png", canvas.toBuffer("image/png"));
   return canvas.toBuffer("image/png");
-
-  //fs.writeFileSync("output.png", canvas.toBuffer("image/png"));
 }

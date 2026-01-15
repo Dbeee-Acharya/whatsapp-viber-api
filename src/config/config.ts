@@ -1,4 +1,3 @@
-import "dotenv/config";
 interface Config {
   PORT: number;
   NODE_ENV: "development" | "production" | "test";

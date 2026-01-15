@@ -10,7 +10,7 @@ const ekantipurApi = createInstance(config.EKANTIPUR_BASE_URL);
 export async function getLatestSocialNews(): Promise<Array<News>> {
   const res = await ekantipurApi.get(URLS.ekantipur.getLatestSocilNews);
 
-  const news: Array<News> = JSON.parse(res.data?.data);
+  const news: Array<News> = res.data?.data;
 
   return news;
 }

@@ -24,6 +24,8 @@ broadcastRoute.get("/", async () => {
   const imageBuffer = await generateNewsImage(unsentNews.title);
   const base64Image = imageBuffer.toString("base64");
   const caption = `Read More at:\n ${unsentNews.permalink}`;
+  console.log(caption);
+  return;
 
   try {
     await whatsappService.sendImage(
