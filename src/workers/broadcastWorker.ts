@@ -12,13 +12,17 @@ import { logger } from "../utils/logger.js";
 
 export const broadcastWorker = new Worker(
     QueueName.broadcast,
-    async (_job) => {
-        const newsList: Array<News> = await getLatestSocialNews();
-        const unsentNews: News | null = await getNextUnsentNews(newsList);
+    async (job) => {
+        let unsentNews: News | null = job.data?.news;
+
+        if (!unsentNews) {
+            const newsList: Array<News> = await getLatestSocialNews();
+            unsentNews = await getNextUnsentNews(newsList);
+        }
 
         if (unsentNews === null) {
-            console.error("No Unsent news found");
-            return { success: false, message: "No unsent news found" };
+            console.error("No news found to broadcast");
+            return { success: false, message: "No news found" };
         }
 
         const imageBuffer = await generateNewsImage(unsentNews.title);
@@ -43,7 +47,7 @@ export const broadcastWorker = new Worker(
             throw error;
         }
 
-        return { success: true, message: "Broadcast sent" };
+        return { success: true, message: "Broadcast sent", newsId: unsentNews.id };
     },
     {
         connection: {
