@@ -1,7 +1,7 @@
 import config from "../config/config.js";
 import URLS from "../constants/urls.js";
 import { createInstance } from "../lib/axios.js";
-import type { News } from "../types/news.js";
+import type { BusinessNews, News } from "../types/news.js";
 import fs from "fs/promises";
 import { logger } from "../utils/logger.js";
 
@@ -9,10 +9,18 @@ const ekantipurApi = createInstance(config.EKANTIPUR_BASE_URL);
 
 export async function getLatestSocialNews(): Promise<Array<News>> {
   const res = await ekantipurApi.get(
-    URLS.ekantipur.getLatestSocilNews + "?ai_summary=true",
+    URLS.ekantipur.getLatestSocialNews + "?ai_summary=true",
   );
 
   const news: Array<News> = res.data?.data;
+
+  return news;
+}
+
+export async function getLatestBusinessNews(): Promise<Array<BusinessNews>> {
+  const res = await ekantipurApi.get(URLS.ekantipur.getLatestBusinessNews);
+
+  const news: Array<BusinessNews> = res.data;
 
   return news;
 }

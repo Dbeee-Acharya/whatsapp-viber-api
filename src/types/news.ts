@@ -12,3 +12,12 @@ export type News = {
   category: string;
   ai_summary: Array<string>;
 };
+
+export type BusinessNews = {
+  news_id: number;
+  pub_date: string;
+  title: string;
+  deck: string;
+  thumb_path: string;
+  url: string;
+};

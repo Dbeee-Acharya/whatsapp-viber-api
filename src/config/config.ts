@@ -18,6 +18,7 @@ interface Config {
   EKANTIPUR_BASE_URL: string;
   SENT_NEWS_ID_STORAGE_FILE_PATH: string;
   EKANTIPUR_CHANNEL_ID: string;
+  EKANTIPUR_MARKETS_CHANNEL_ID: string;
 
   //redis
   REDIS_HOST: string;
@@ -51,6 +52,7 @@ const config: Config = {
   SENT_NEWS_ID_STORAGE_FILE_PATH:
     process.env.SENT_NEWS_ID_STORAGE_FILE_PATH || "",
   EKANTIPUR_CHANNEL_ID: process.env.EKANTIPUR_CHANNEL_ID || "",
+  EKANTIPUR_MARKETS_CHANNEL_ID: process.env.EKANTIPUR_MARKETS_CHANNEL_ID || "",
 
   //redis
   REDIS_HOST: process.env.REDIS_HOST || "",
