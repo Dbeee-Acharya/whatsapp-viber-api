@@ -22,7 +22,7 @@ interface Config {
   //redis
   REDIS_HOST: string;
   REDIS_PORT: number;
-  REDIS_PASSSWORD: string;
+  REDIS_PASSWORD: string;
 
   //wildcard
   [key: string]: string | number;
@@ -55,7 +55,7 @@ const config: Config = {
   //redis
   REDIS_HOST: process.env.REDIS_HOST || "",
   REDIS_PORT: parseInt(process.env.REDIS_PORT || "6379"),
-  REDIS_PASSSWORD: process.env.REDIS_PASSSWORD || "",
+  REDIS_PASSWORD: process.env.REDIS_PASSWORD || "",
 };
 
 export default config;

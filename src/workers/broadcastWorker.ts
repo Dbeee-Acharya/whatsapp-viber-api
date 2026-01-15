@@ -49,7 +49,7 @@ export const broadcastWorker = new Worker(
         connection: {
             host: config.REDIS_HOST,
             port: config.REDIS_PORT,
-            password: config.REDIS_PASSSWORD || undefined,
+            password: (config.REDIS_PASSWORD as string) || undefined,
         },
     },
 );
