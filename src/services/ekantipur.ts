@@ -8,7 +8,9 @@ import { logger } from "../utils/logger.js";
 const ekantipurApi = createInstance(config.EKANTIPUR_BASE_URL);
 
 export async function getLatestSocialNews(): Promise<Array<News>> {
-  const res = await ekantipurApi.get(URLS.ekantipur.getLatestSocilNews);
+  const res = await ekantipurApi.get(
+    URLS.ekantipur.getLatestSocilNews + "?ai_summary=true",
+  );
 
   const news: Array<News> = res.data?.data;
 

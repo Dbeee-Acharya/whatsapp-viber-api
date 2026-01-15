@@ -10,4 +10,5 @@ export type News = {
   permalink: string;
   story: string;
   category: string;
+  ai_summary: Array<string>;
 };
