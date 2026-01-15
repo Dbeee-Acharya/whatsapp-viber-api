@@ -23,9 +23,13 @@ broadcastRoute.get("/", async () => {
 
   const imageBuffer = await generateNewsImage(unsentNews.title);
   const base64Image = imageBuffer.toString("base64");
-  const caption = `Read More at:\n ${unsentNews.permalink}`;
-  console.log(caption);
-  return;
+  const bullets = unsentNews.summary
+    .split("।")
+    .filter((s) => s.trim())
+    .map((s, _i) => `- ${s.trim()}।`)
+    .join("\n");
+
+  const caption = `*What you should know:*\n${bullets}\nFull Story: ${unsentNews.permalink}`;
 
   try {
     await whatsappService.sendImage(

@@ -64,6 +64,5 @@ export async function generateNewsImage(text: string) {
   const logo = await loadImage("./src/assets/ekantipur-logo.png");
   ctx.drawImage(logo, 80, HEIGHT - 160, 100, 100);
 
-  fs.writeFileSync("output.png", canvas.toBuffer("image/png"));
   return canvas.toBuffer("image/png");
 }
