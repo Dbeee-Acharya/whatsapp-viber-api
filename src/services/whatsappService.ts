@@ -19,16 +19,26 @@ export const whatsappService = {
     const filename = `myFile_${new Date()
       .toISOString()
       .replace(/[-:T]/g, "")
-      .slice(0, 14)}`;
+      .slice(0, 14)}.png`;
+
     const payload = {
       chatId: chatId,
       session: config.WAHA_SESSION,
-      file: {
-        ...(imageUrl ? { url: imageUrl } : { data: fileData }),
-        filename: `${filename}.jpg`,
-      },
+      file: imageUrl
+        ? {
+            url: imageUrl,
+            mimetype: "image/png",
+            filename,
+          }
+        : {
+            data: fileData,
+            mimetype: "image/png",
+            filename,
+          },
       caption: caption || "", //either a caption or empty string for the case of no captions
     };
+
+    console.log(payload);
     return await wahaClient.post("/api/sendImage", payload);
   },
 };

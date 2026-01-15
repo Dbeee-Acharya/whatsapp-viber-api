@@ -7,12 +7,12 @@ import { generateNewsImage } from "../services/canvasService.js";
 import type { News } from "../types/news.js";
 import { whatsappService } from "../services/whatsappService.js";
 import config from "../config/config.js";
-import { viberService } from "../services/viberService.js";
+//import { viberService } from "../services/viberService.js";
 import { logger } from "../utils/logger.js";
 
 const broadcastRoute = new Hono();
 
-broadcastRoute.get("/", async () => {
+broadcastRoute.get("/", async (c) => {
   const newsList: Array<News> = await getLatestSocialNews();
   const unsentNews: News | null = await getNextUnsentNews(newsList);
 
@@ -22,6 +22,7 @@ broadcastRoute.get("/", async () => {
   }
 
   const imageBuffer = await generateNewsImage(unsentNews.title);
+  //const base64Image = `data:image/png;base64,${imageBuffer.toString("base64")}`;
   const base64Image = imageBuffer.toString("base64");
   const bullets = unsentNews.summary
     .split("।")
@@ -29,7 +30,7 @@ broadcastRoute.get("/", async () => {
     .map((s, _i) => `- ${s.trim()}।`)
     .join("\n");
 
-  const caption = `*What you should know:*\n${bullets}\nFull Story: ${unsentNews.permalink}`;
+  const caption = `*What you should know:*\n\n${bullets}\n\nFull Story: ${unsentNews.permalink}`;
 
   try {
     await whatsappService.sendImage(
@@ -42,15 +43,17 @@ broadcastRoute.get("/", async () => {
     logger.error("Cannot send news to whatsapp", error);
   }
 
-  try {
-    await viberService.publishImage(
-      config.VIBER_ADMIN_ID,
-      base64Image,
-      caption,
-    );
-  } catch (error) {
-    logger.error("Cannot send news to viber", error);
-  }
+  return c.json({ success: true, message: "Broadcast sent" });
+
+  // try {
+  //   await viberService.publishImage(
+  //     config.VIBER_ADMIN_ID,
+  //     base64Image,
+  //     caption,
+  //   );
+  // } catch (error) {
+  //   logger.error("Cannot send news to viber", error);
+  // }
 });
 
 export default broadcastRoute;
