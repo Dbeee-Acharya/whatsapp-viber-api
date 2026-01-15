@@ -38,7 +38,6 @@ export const whatsappService = {
       caption: caption || "", //either a caption or empty string for the case of no captions
     };
 
-    console.log(payload);
     return await wahaClient.post("/api/sendImage", payload);
   },
 };

@@ -1,4 +1,5 @@
 onlyBuiltDependencies:
   - canvas
   - esbuild
+  - msgpackr-extract
   - node-canvas

@@ -19,6 +19,11 @@ interface Config {
   SENT_NEWS_ID_STORAGE_FILE_PATH: string;
   EKANTIPUR_CHANNEL_ID: string;
 
+  //redis
+  REDIS_HOST: string;
+  REDIS_PORT: number;
+  REDIS_PASSSWORD: string;
+
   //wildcard
   [key: string]: string | number;
 }
@@ -46,6 +51,11 @@ const config: Config = {
   SENT_NEWS_ID_STORAGE_FILE_PATH:
     process.env.SENT_NEWS_ID_STORAGE_FILE_PATH || "",
   EKANTIPUR_CHANNEL_ID: process.env.EKANTIPUR_CHANNEL_ID || "",
+
+  //redis
+  REDIS_HOST: process.env.REDIS_HOST || "",
+  REDIS_PORT: parseInt(process.env.REDIS_PORT || "6379"),
+  REDIS_PASSSWORD: process.env.REDIS_PASSSWORD || "",
 };
 
 export default config;

@@ -4,6 +4,7 @@ import { Hono } from "hono";
 import config from "./config/config.js";
 import messageRoute from "./routes/sendMessageRoute.js";
 import broadcastRoute from "./routes/broadcast.js";
+import "./workers/broadcastWorker.js";
 
 const app = new Hono();
 
