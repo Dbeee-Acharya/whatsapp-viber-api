@@ -51,7 +51,12 @@ export const broadcastWorker = new Worker(
         .join("\n");
     }
 
-    const caption = `*What you should know:*\n\n${bullets}\n\nFull Story: ${unsentNews.permalink}`;
+    let caption: string = "";
+    if (sendTemplate == "true") {
+      caption = `*What you should know:*\n\n${bullets}\n\nFull Story: ${unsentNews.permalink}`;
+    } else {
+      caption = `*${unsentNews.title}*\n\n${bullets}\n\nFull Story: ${unsentNews.permalink}`;
+    }
 
     try {
       if (sendTemplate === "true") {
