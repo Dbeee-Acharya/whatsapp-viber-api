@@ -18,6 +18,7 @@ const getRandomDelay = () => {
 broadcastRoute.get("/", async (c) => {
   const newsList: Array<News> = await getLatestSocialNews();
   const unsentNews: News | null = await getNextUnsentNews(newsList);
+  const { sendTemplate } = c.req.query();
 
   if (unsentNews === null) {
     return c.json({ success: false, message: "No unsent news found" }, 404);
@@ -30,6 +31,7 @@ broadcastRoute.get("/", async (c) => {
     "broadcast-news",
     {
       news: unsentNews,
+      sendTemplate: sendTemplate,
       removeOnComplete: true,
       removeOnFail: 10,
     },

@@ -16,10 +16,15 @@ export const whatsappService = {
     fileData?: string,
     caption?: string,
   ) {
+    let imageType = "jpg";
+    if (imageUrl) {
+      imageType = imageUrl.toLowerCase().endsWith(".png") ? "png" : "jpg";
+    }
+
     const filename = `myFile_${new Date()
       .toISOString()
       .replace(/[-:T]/g, "")
-      .slice(0, 14)}.png`;
+      .slice(0, 14)}.${imageType}`;
 
     const payload = {
       chatId: chatId,
@@ -27,7 +32,7 @@ export const whatsappService = {
       file: imageUrl
         ? {
             url: imageUrl,
-            mimetype: "image/png",
+            mimetype: `image/${imageType}`,
             filename,
           }
         : {

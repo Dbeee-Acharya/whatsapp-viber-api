@@ -14,6 +14,7 @@ export const broadcastWorker = new Worker(
   QueueName.broadcast,
   async (job) => {
     let unsentNews: News | null = job.data?.news;
+    let sendTemplate = job.data?.sendTemplate;
 
     if (!unsentNews) {
       const newsList: Array<News> = await getLatestSocialNews();
@@ -25,8 +26,16 @@ export const broadcastWorker = new Worker(
       return { success: false, message: "No news found" };
     }
 
-    const imageBuffer = await generateNewsImage(unsentNews.title);
-    const base64Image = imageBuffer.toString("base64");
+    let imageBuffer;
+    let base64Image;
+    let imageUrl;
+
+    if (sendTemplate == "true") {
+      imageBuffer = await generateNewsImage(unsentNews.title);
+      base64Image = imageBuffer.toString("base64");
+    } else {
+      imageUrl = unsentNews.thumb_path;
+    }
 
     let bullets: string = "";
 
@@ -45,12 +54,21 @@ export const broadcastWorker = new Worker(
     const caption = `*What you should know:*\n\n${bullets}\n\nFull Story: ${unsentNews.permalink}`;
 
     try {
-      await whatsappService.sendImage(
-        config.EKANTIPUR_CHANNEL_ID,
-        undefined,
-        base64Image,
-        caption,
-      );
+      if (sendTemplate === "true") {
+        await whatsappService.sendImage(
+          config.EKANTIPUR_CHANNEL_ID,
+          undefined,
+          base64Image,
+          caption,
+        );
+      } else {
+        await whatsappService.sendImage(
+          config.EKANTIPUR_CHANNEL_ID,
+          imageUrl,
+          undefined,
+          caption,
+        );
+      }
     } catch (error) {
       logger.error("Cannot send news to whatsapp", error);
       throw error;
