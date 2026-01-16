@@ -29,5 +29,6 @@ pm2 start ecosystem.config.cjs
 ## ROUTES
 
 GET /api/broadcast
+GET /api/broadcast?sendTemplate=false
 
-> broadcast message to whatsapp and viber
+> broadcast message to whatsapp and viber with either template or news image
