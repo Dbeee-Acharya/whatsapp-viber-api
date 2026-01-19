@@ -4,7 +4,9 @@ import { Hono } from "hono";
 import config from "./config/config.js";
 import messageRoute from "./routes/sendMessageRoute.js";
 import broadcastRoute from "./routes/broadcast.js";
+import scrapeRoute from "./routes/scrape.js";
 import "./workers/broadcastWorker.js";
+import "./workers/marketsWorker.js";
 
 const app = new Hono();
 
@@ -19,6 +21,7 @@ app.get("/", (c) => {
 
 app.route("/api/send-message", messageRoute);
 app.route("/api/broadcast", broadcastRoute);
+app.route("/api/scrape", scrapeRoute);
 
 serve(
   {

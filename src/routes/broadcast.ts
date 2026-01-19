@@ -1,8 +1,11 @@
 import { Hono } from "hono";
 import { broadcastQueue } from "../queue/broadcastQueue.js";
+import { marketsQueue } from "../queue/marketsQueue.js";
 import {
   getLatestSocialNews,
   getNextUnsentNews,
+  getLatestBusinessNews,
+  getNextUnsentBusinessNews,
 } from "../services/ekantipur.js";
 import type { News } from "../types/news.js";
 import { whatsappService } from "../services/whatsappService.js";
@@ -107,6 +110,53 @@ ${summary}`;
         message,
         prices,
       },
+    });
+  } catch (error: any) {
+    return c.json({ success: false, message: error.message }, 500);
+  }
+});
+
+broadcastRoute.get("/send-business-news", async (c) => {
+  try {
+    const newsList = await getLatestBusinessNews();
+    const queuedJobs = [];
+
+    // Loop to find all unsent news
+    while (true) {
+      const unsentNews = await getNextUnsentBusinessNews(newsList);
+      if (!unsentNews) break;
+
+      // Random delay between 5-10 minutes
+      const delay = Math.floor(Math.random() * (10 - 5 + 1) + 5) * 60 * 1000;
+
+      const job = await marketsQueue.add(
+        "broadcast-business-news",
+        {
+          news: unsentNews,
+          removeOnComplete: true,
+          removeOnFail: 10,
+        },
+        {
+          delay,
+          jobId: `business-${unsentNews.news_id}`,
+        },
+      );
+
+      queuedJobs.push({
+        id: unsentNews.news_id,
+        jobId: job.id,
+        delayMinutes: delay / 60000,
+      });
+    }
+
+    if (queuedJobs.length === 0) {
+      return c.json({ success: false, message: "No new business news found" }, 404);
+    }
+
+    return c.json({
+      success: true,
+      message: `${queuedJobs.length} Business news broadcast(s) scheduled`,
+      jobs: queuedJobs,
     });
   } catch (error: any) {
     return c.json({ success: false, message: error.message }, 500);

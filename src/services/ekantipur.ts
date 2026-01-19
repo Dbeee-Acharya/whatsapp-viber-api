@@ -18,11 +18,54 @@ export async function getLatestSocialNews(): Promise<Array<News>> {
 }
 
 export async function getLatestBusinessNews(): Promise<Array<BusinessNews>> {
-  const res = await ekantipurApi.get(URLS.ekantipur.getLatestBusinessNews);
+  const res = await ekantipurApi.get(
+    URLS.ekantipur.getLatestBusinessNews + "?ai_summary=true",
+  );
 
-  const news: Array<BusinessNews> = res.data;
+  const news: Array<BusinessNews> = res.data?.data || res.data;
 
   return news;
+}
+
+export async function getNextUnsentBusinessNews(
+  news: Array<BusinessNews>,
+): Promise<BusinessNews | null> {
+  let sentIds: number[] = [];
+
+  try {
+    const data = await fs.readFile(
+      config.SENT_BUSINESS_NEWS_ID_STORAGE_FILE_PATH,
+      "utf8",
+    );
+    sentIds = JSON.parse(data);
+  } catch (err) {
+    logger.warn("business news ID file doesn't exist, starting fresh");
+    sentIds = [];
+  }
+
+  const sentSet = new Set(sentIds);
+
+  // Sort news by pub_date descending
+  const sortedNews = [...news].sort(
+    (a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime(),
+  );
+
+  const nextUnsent = sortedNews.find((n) => !sentSet.has(n.news_id));
+
+  if (!nextUnsent) return null; // all news sent
+
+  const updatedIds = [
+    nextUnsent.news_id,
+    ...sentIds.filter((id) => id !== nextUnsent.news_id),
+  ].slice(0, 25);
+
+  await fs.writeFile(
+    config.SENT_BUSINESS_NEWS_ID_STORAGE_FILE_PATH,
+    JSON.stringify(updatedIds, null, 2),
+    "utf8",
+  );
+
+  return nextUnsent;
 }
 
 export async function getNextUnsentNews(

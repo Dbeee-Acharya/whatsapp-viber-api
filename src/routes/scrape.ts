@@ -7,8 +7,11 @@ const scrapeRoute = new Hono();
 scrapeRoute.get("/metal-price", async (c) => {
   try {
     await updatePrices();
+    return c.json({ success: true, message: "Metal prices updated successfully" });
   } catch (e) {
     logger.error(e);
-    throw new Error("Error getting latest gold and silver price");
+    return c.json({ success: false, message: "Error getting latest gold and silver price" }, 500);
   }
 });
+
+export default scrapeRoute;

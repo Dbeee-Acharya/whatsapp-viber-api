@@ -22,6 +22,7 @@ interface Config {
   //storage
   METAL_PRICE_STORAGE_FILE_PATH: string;
   SENT_NEWS_ID_STORAGE_FILE_PATH: string;
+  SENT_BUSINESS_NEWS_ID_STORAGE_FILE_PATH: string;
 
   //redis
   REDIS_HOST: string;
@@ -59,6 +60,8 @@ const config: Config = {
   //storage
   SENT_NEWS_ID_STORAGE_FILE_PATH:
     process.env.SENT_NEWS_ID_STORAGE_FILE_PATH || "",
+  SENT_BUSINESS_NEWS_ID_STORAGE_FILE_PATH:
+    process.env.SENT_BUSINESS_NEWS_ID_STORAGE_FILE_PATH || "",
   METAL_PRICE_STORAGE_FILE_PATH:
     process.env.METAL_PRICE_STORAGE_FILE_PATH || "",
 
