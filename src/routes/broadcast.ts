@@ -96,8 +96,8 @@ broadcastRoute.get("/send-metal-price", async (c) => {
 
     const message = `Here are the latest gold and silver rates for ${todayDate}:
 
-Gold: NPR ${prices.gold.today?.toFixed(2)} per tola
-Silver: NPR ${prices.silver.today?.toFixed(2)} per tola
+Gold: NPR *${prices.gold.today?.toFixed(2)}* per tola
+Silver: NPR *${prices.silver.today?.toFixed(2)}* per tola
 
 ${summary}`;
 
