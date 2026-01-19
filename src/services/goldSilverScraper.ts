@@ -27,7 +27,7 @@ function extractTolaRates(html: string) {
   return { gold, silver };
 }
 
-function loadExisting(): MetalPriceData {
+export function loadExistingMetalPrices(): MetalPriceData {
   if (!fs.existsSync(config.METAL_PRICE_STORAGE_FILE_PATH)) {
     return {
       gold: { yesterday: null, today: null },
@@ -52,7 +52,7 @@ export async function updatePrices() {
   let latestGoldPrice = 0;
   let latestSilverPrice = 0;
 
-  const existing = loadExisting();
+  const existing = loadExistingMetalPrices();
 
   // GOLD
   if (existing.gold.today !== latest.gold) {
