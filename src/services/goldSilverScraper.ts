@@ -17,10 +17,16 @@ function extractTolaRates(html: string) {
     const text = $(el).text().replace(/\s+/g, " ");
 
     if (text.includes("FINE GOLD")) {
-      gold = Number(text.match(/(\d{3,})/)?.[1]);
+      const match = text.match(/[\d]{3,}/g);
+      if (match) {
+        gold = Number(match[match.length - 1]);
+      }
     }
     if (text.includes("SILVER")) {
-      gold = Number(text.match(/(\d{3,})/)?.[1]);
+      const match = text.match(/[\d]{3,}/g);
+      if (match) {
+        silver = Number(match[match.length - 1]);
+      }
     }
   });
 
@@ -76,5 +82,3 @@ export async function updatePrices() {
 
   return { latestGoldPrice, latestSilverPrice };
 }
-
-updatePrices().catch(console.error);
