@@ -1,5 +1,4 @@
 export const QueueName = {
-  broadcast: "broadcast",
-  markets: "markets",
+  broadcast: "{broadcast}",
+  markets: "{markets}",
 };
-
