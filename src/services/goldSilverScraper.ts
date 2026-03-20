@@ -2,6 +2,7 @@ import * as cheerio from "cheerio";
 import fs from "fs";
 import type { MetalPriceData } from "../types/goldSilver.js";
 import config from "../config/config.js";
+import axios from "axios";
 
 const FENEGOSIDA_URL = "https://www.fenegosida.org";
 
@@ -23,32 +24,14 @@ async function fetchWithRetry(url: string): Promise<string> {
 
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     try {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-
-      const res = await fetch(url, {
-        signal: controller.signal,
-        headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
-          Accept:
-            "text/html,application/xhtml+xml,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-          "Accept-Language": "en-US,en;q=0.5",
-        },
+      const res = await axios.get<string>(url, {
+        timeout: FETCH_TIMEOUT_MS,
+        family: 4, // force IPv4
       });
-      clearTimeout(timer);
-
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status} ${res.statusText}`);
-      }
-
-      return await res.text();
+      return res.data;
     } catch (err) {
       lastError = err;
-      const isLastAttempt = attempt === MAX_RETRIES;
-
-      if (isLastAttempt) break;
-
+      if (attempt === MAX_RETRIES) break;
       console.warn(
         `Fetch attempt ${attempt}/${MAX_RETRIES} failed: ${err}. Retrying in ${RETRY_DELAY_MS}ms...`,
       );
