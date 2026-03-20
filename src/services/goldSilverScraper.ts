@@ -4,7 +4,7 @@ import type { MetalPriceData } from "../types/goldSilver.js";
 import config from "../config/config.js";
 import axios from "axios";
 
-const FENEGOSIDA_URL = "https://www.fenegosida.org";
+const FENEGOSIDA_URL = "https://fenegosida.org";
 
 const FETCH_TIMEOUT_MS = 10_000; // 10 seconds
 const MAX_RETRIES = 3;
