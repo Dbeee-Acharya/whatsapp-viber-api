@@ -18,9 +18,7 @@ export async function getLatestSocialNews(): Promise<Array<News>> {
 }
 
 export async function getLatestBusinessNews(): Promise<Array<BusinessNews>> {
-  const res = await ekantipurApi.get(
-    URLS.ekantipur.getLatestBusinessNews + "?ai_summary=true",
-  );
+  const res = await ekantipurApi.get(URLS.ekantipur.getLatestBusinessNews);
 
   const news: Array<BusinessNews> = res.data?.data || res.data;
 

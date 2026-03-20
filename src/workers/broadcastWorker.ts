@@ -39,16 +39,20 @@ export const broadcastWorker = new Worker(
 
     let bullets: string = "";
 
-    if (Array.isArray(unsentNews.ai_summary) && unsentNews.ai_summary) {
+    // Use hyphen bullets only for ai_summary (when it exists and has non-empty items)
+    if (
+      Array.isArray(unsentNews.ai_summary) &&
+      unsentNews.ai_summary.length > 0 &&
+      unsentNews.ai_summary.some((s) => s?.trim())
+    ) {
       bullets = unsentNews.ai_summary
+        .map((summary) => summary?.trim())
+        .filter(Boolean)
         .map((summary) => `- ${summary}`)
         .join("\n");
-    } else if (unsentNews.summary) {
-      bullets = unsentNews.summary
-        .split("।")
-        .filter((s) => s.trim())
-        .map((s, _i) => `- ${s.trim()}।`)
-        .join("\n");
+    } else if (unsentNews.summary?.trim()) {
+      // summary is already plain text; do not add "-" bullets
+      bullets = unsentNews.summary.trim();
     }
 
     let caption: string = "";
